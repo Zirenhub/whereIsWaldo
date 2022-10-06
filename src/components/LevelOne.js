@@ -5,6 +5,7 @@ import WithMagnifier from './WithMagnifier';
 import BackButton from './BackButton';
 import Timer from './Timer';
 import Magnifier from './Magnifier';
+import Marker from './Marker';
 
 const LevelOne = (props) => {
   const {
@@ -16,6 +17,9 @@ const LevelOne = (props) => {
     imgHeight,
     showMagnifier,
     handleMouseLeave,
+    handleClick,
+    marX,
+    marY,
   } = props;
 
   return (
@@ -29,6 +33,7 @@ const LevelOne = (props) => {
           onMouseMove={handleMouseMove}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
+          onClick={handleClick}
         />
         {showMagnifier && (
           <Magnifier
@@ -39,6 +44,7 @@ const LevelOne = (props) => {
             imgHeight={imgHeight}
           />
         )}
+        <Marker marX={marX} marY={marY} />
       </div>
     </div>
   );

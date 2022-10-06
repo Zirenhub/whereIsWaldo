@@ -5,6 +5,7 @@ const WithMagnifier = (OriginalComponent) => {
     const [[x, y], setXY] = useState([0, 0]);
     const [[imgWidth, imgHeight], setSize] = useState([0, 0]);
     const [showMagnifier, setShowMagnifier] = useState(false);
+    const [[marX, marY], setMarker] = useState([0, 0]);
 
     const handleMouseMove = (e) => {
       const elem = e.currentTarget;
@@ -26,6 +27,16 @@ const WithMagnifier = (OriginalComponent) => {
       setShowMagnifier(true);
     };
 
+    const handleClick = (e) => {
+      const imgRect = e.currentTarget.getBoundingClientRect();
+      const { clientX, clientY } = e;
+
+      const posXpct = ((clientX - imgRect.x) * 100) / imgRect.width;
+      const posYpct = ((clientY - imgRect.y) * 100) / imgRect.height;
+
+      setMarker([posXpct, posYpct]);
+    };
+
     return (
       <OriginalComponent
         handleMouseEnter={handleMouseEnter}
@@ -36,6 +47,9 @@ const WithMagnifier = (OriginalComponent) => {
         imgWidth={imgWidth}
         showMagnifier={showMagnifier}
         handleMouseLeave={handleMouseLeave}
+        handleClick={handleClick}
+        marX={marX}
+        marY={marY}
       />
     );
   };

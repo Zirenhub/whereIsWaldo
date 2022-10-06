@@ -1,0 +1,12 @@
+.marker-container {
+  position: absolute;
+  color: red;
+  background-color: purple;
+  opacity: 0.5;
+  padding: 50px;
+  border-radius: 100%;
+  transform: translate(-50%, -50%);
+}
+/* 
+.marker-container > p {
+} */
