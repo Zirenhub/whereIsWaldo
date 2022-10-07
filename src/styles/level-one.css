@@ -4,6 +4,7 @@
 
 .image-container {
   position: relative;
+  background-color: black;
 }
 
 .back-button {
@@ -25,4 +26,5 @@
   left: 50%;
   background-color: rgba(239, 239, 239, 0.7);
   padding: 5px 15px;
+  transform: translate(-50%, 0%);
 }
