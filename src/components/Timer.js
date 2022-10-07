@@ -1,14 +1,18 @@
 import React, { useEffect, useState, memo } from 'react';
 
-const Timer = () => {
-  const [seconds, setSeconds] = useState(0);
+const Timer = (props) => {
+  const { isWaldoFound, setSeconds, seconds } = props;
 
   const tick = () => {
     setSeconds(seconds + 1);
   };
 
+  let interval;
+
   useEffect(() => {
-    const interval = setInterval(() => tick(), 1000);
+    if (!isWaldoFound) {
+      interval = setInterval(() => tick(), 1000);
+    }
     return () => {
       clearInterval(interval);
     };
