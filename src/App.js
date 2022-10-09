@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import levelOne from './assets/images/2687204.jpg';
 import levelTwo from './assets/images/2687208.jpg';
-import levelThree from './assets/images/2687215.jpg';
+import levelThree from './assets/images/OTfytjA.jpeg';
 import './styles/global.css';
 import './styles/app.css';
 
