@@ -14,7 +14,7 @@
 }
 
 .back-button > a > button {
-  background-color: rgba(239, 239, 239, 0.4);
+  background-color: rgba(239, 239, 239, 0.9);
   padding: 5px 10px;
   border: none;
   cursor: pointer;
@@ -24,7 +24,29 @@
   position: absolute;
   top:0%;
   left: 50%;
-  background-color: rgba(239, 239, 239, 0.7);
+  background-color: rgba(239, 239, 239, 0.9);
   padding: 5px 15px;
   transform: translate(-50%, 0%);
+}
+
+.searching-for-container {
+  position: absolute;
+  top: 0%;
+  right: 0.2%;
+  background-color: rgba(239, 239, 239, 0.8);
+  padding: 5px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-shadow:
+  -1px -1px 0 #000,  
+  1px -1px 0 #000,
+  -1px 1px 0 #000,
+  1px 1px 0 #000;
+  color: rgb(255, 229, 80);
+}
+
+.searching-for-content {
+  color: rgb(109, 221, 75);
 }
