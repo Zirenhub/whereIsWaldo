@@ -8,7 +8,7 @@ const Marker = (props) => {
       className="marker-container"
       style={{ left: marX + '%', top: marY + '%' }}
     >
-      <p>{position}</p>
+      {position === 'Whitebeard' ? <p>WBeard</p> : <p>{position}</p>}
     </div>
   );
 };
