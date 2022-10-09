@@ -1,7 +1,7 @@
 import React, { useEffect, useState, memo } from 'react';
 
 const Timer = (props) => {
-  const { isWaldoFound, setSeconds, seconds } = props;
+  const { isEveryoneFound, setSeconds, seconds } = props;
 
   const tick = () => {
     setSeconds(seconds + 1);
@@ -10,7 +10,7 @@ const Timer = (props) => {
   let interval;
 
   useEffect(() => {
-    if (!isWaldoFound) {
+    if (!isEveryoneFound) {
       interval = setInterval(() => tick(), 1000);
     }
     return () => {
