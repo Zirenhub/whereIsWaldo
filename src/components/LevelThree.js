@@ -8,6 +8,8 @@ import Magnifier from './Magnifier';
 import Marker from './Marker';
 import GameOver from './GameOver';
 import SearchingFor from './SearchingFor';
+import getCharacters from '../utils/getCharacters';
+import checkIfInputValid from '../utils/checkIfInputValid';
 
 const LevelThree = (props) => {
   const {
@@ -22,17 +24,10 @@ const LevelThree = (props) => {
   } = props;
 
   const [[marX, marY], setMarker] = useState([0, 0]);
-  const [everyone, setEveryone] = useState({
-    waldo: {
-      position: [42.152704, 18.473476],
-      isFound: false,
-    },
-  });
+  const [characters, setCharacters] = useState(null);
   const [isEveryoneFound, setIsEveryoneFound] = useState(false);
   const [seconds, setSeconds] = useState(0);
   const [modalShow, setModalShow] = useState(false);
-
-  const waldo = everyone.waldo;
 
   const handleCloseModal = () => setModalShow(false);
   const handleShowModal = () => setModalShow(true);
@@ -48,27 +43,37 @@ const LevelThree = (props) => {
   };
 
   useEffect(() => {
-    console.log(marX, marY);
-    if (!waldo.isFound) {
-      if (
-        (marY === waldo.position[1] ||
-          (marY >= 16.786401 && marY <= 20.919736)) &&
-        (marX === waldo.position[0] || (marX <= 42.682926 && marX >= 41.35737))
-      ) {
-        setEveryone((prevState) => ({
-          ...prevState,
-          waldo: { ...prevState.waldo, isFound: true },
-        }));
-      }
-    }
+    console.log('trying to get characters from database');
+    const fetchCharacters = () => {
+      getCharacters('level-three-locations')
+        .then((data) => {
+          setCharacters(data);
+        })
+        .catch((error) => console.log(error));
+    };
+    fetchCharacters();
+  }, []);
+
+  useEffect(() => {
+    checkIfInputValid(
+      marX,
+      marY,
+      characters,
+      setCharacters,
+      'level-three-locations'
+    );
   }, [marX, marY]);
 
   useEffect(() => {
-    if (waldo.isFound) {
-      setIsEveryoneFound(true);
-      handleShowModal();
+    if (characters) {
+      const areAllCharactersFound = characters.every((obj) => obj.found);
+
+      if (areAllCharactersFound) {
+        setIsEveryoneFound(true);
+        handleShowModal();
+      }
     }
-  }, [waldo.isFound]);
+  }, [characters]);
 
   return (
     <div className="main-container">
@@ -79,7 +84,7 @@ const LevelThree = (props) => {
           setSeconds={setSeconds}
           seconds={seconds}
         />
-        <SearchingFor everyone={everyone} />
+        <SearchingFor everyone={characters} />
         <img
           alt="where is waldo level one"
           src={image}
@@ -97,14 +102,19 @@ const LevelThree = (props) => {
             imgHeight={imgHeight}
           />
         )}
-        {waldo.isFound && (
-          <Marker
-            marX={waldo.position[0]}
-            marY={waldo.position[1]}
-            position="Waldo"
-          />
-        )}
-
+        {characters &&
+          characters.map((character) => {
+            if (character.found) {
+              return (
+                <Marker
+                  key={`${character.name}`}
+                  marX={character.position[0]}
+                  marY={character.position[1]}
+                  position={character.name}
+                />
+              );
+            }
+          })}
         {modalShow && (
           <GameOver time={seconds} handleCloseModal={handleCloseModal} />
         )}

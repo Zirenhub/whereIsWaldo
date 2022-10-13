@@ -8,6 +8,8 @@ import Magnifier from './Magnifier';
 import Marker from './Marker';
 import GameOver from './GameOver';
 import SearchingFor from './SearchingFor';
+import getCharacters from '../utils/getCharacters';
+import checkIfInputValid from '../utils/checkIfInputValid';
 
 const LevelTwo = (props) => {
   const {
@@ -22,37 +24,10 @@ const LevelTwo = (props) => {
   } = props;
 
   const [[marX, marY], setMarker] = useState([0, 0]);
-  const [everyone, setEveryone] = useState({
-    waldo: {
-      position: [56.415694, 42.742427],
-      isFound: false,
-    },
-    tail: {
-      position: [9.862142, 51.749777],
-      isFound: false,
-    },
-    wilma: {
-      position: [30.646871, 61.606878],
-      isFound: false,
-    },
-    whitebeard: {
-      position: [67.656415, 28.976476],
-      isFound: false,
-    },
-    odlaw: {
-      position: [43.743372, 30.591001],
-      isFound: false,
-    },
-  });
+  const [characters, setCharacters] = useState(null);
   const [isEveryoneFound, setIsEveryoneFound] = useState(false);
   const [seconds, setSeconds] = useState(0);
   const [modalShow, setModalShow] = useState(false);
-
-  const waldo = everyone.waldo;
-  const tail = everyone.tail;
-  const wilma = everyone.wilma;
-  const whitebeard = everyone.whitebeard;
-  const odlaw = everyone.odlaw;
 
   const handleCloseModal = () => setModalShow(false);
   const handleShowModal = () => setModalShow(true);
@@ -68,92 +43,37 @@ const LevelTwo = (props) => {
   };
 
   useEffect(() => {
-    console.log(marX, marY);
-    if (!waldo.isFound) {
-      if (
-        (marY === waldo.position[1] ||
-          (marY >= 41.722727 && marY <= 43.592177)) &&
-        (marX === waldo.position[0] || (marX <= 56.892895 && marX >= 56.150583))
-      ) {
-        setEveryone((prevState) => ({
-          ...prevState,
-          waldo: { ...prevState.waldo, isFound: true },
-        }));
-      }
-    }
+    console.log('trying to get characters from database');
+    const fetchCharacters = () => {
+      getCharacters('level-two-locations')
+        .then((data) => {
+          setCharacters(data);
+        })
+        .catch((error) => console.log(error));
+    };
+    fetchCharacters();
+  }, []);
 
-    if (!tail.isFound) {
-      if (
-        (marY === tail.position[1] ||
-          (marY >= 51.579827 && marY <= 52.259627)) &&
-        (marX === tail.position[0] || (marX <= 10.392364 && marX >= 9.437963))
-      ) {
-        setEveryone((prevState) => ({
-          ...prevState,
-          tail: { ...prevState.tail, isFound: true },
-        }));
-      }
-    }
-
-    if (!wilma.isFound) {
-      if (
-        (marY === wilma.position[1] ||
-          (marY >= 61.012053 && marY <= 62.456628)) &&
-        (marX === wilma.position[0] || (marX <= 31.071049 && marX >= 30.328738))
-      ) {
-        setEveryone((prevState) => ({
-          ...prevState,
-          wilma: { ...prevState.wilma, isFound: true },
-        }));
-      }
-    }
-
-    if (!whitebeard.isFound) {
-      if (
-        (marY === whitebeard.position[1] ||
-          (marY >= 28.126726 && marY <= 30.081151)) &&
-        (marX === whitebeard.position[0] ||
-          (marX <= 68.292682 && marX >= 67.07317))
-      ) {
-        setEveryone((prevState) => ({
-          ...prevState,
-          whitebeard: { ...prevState.whitebeard, isFound: true },
-        }));
-      }
-    }
-
-    if (!odlaw.isFound) {
-      if (
-        (marY === odlaw.position[1] ||
-          (marY >= 29.741251 && marY <= 31.440751)) &&
-        (marX === odlaw.position[0] || (marX <= 43.955461 && marX >= 43.213149))
-      ) {
-        setEveryone((prevState) => ({
-          ...prevState,
-          odlaw: { ...prevState.odlaw, isFound: true },
-        }));
-      }
-    }
+  useEffect(() => {
+    checkIfInputValid(
+      marX,
+      marY,
+      characters,
+      setCharacters,
+      'level-two-locations'
+    );
   }, [marX, marY]);
 
   useEffect(() => {
-    if (
-      waldo.isFound &&
-      tail.isFound &&
-      wilma.isFound &&
-      whitebeard.isFound &&
-      odlaw.isFound
-    ) {
-      setIsEveryoneFound(true);
-      handleShowModal();
+    if (characters) {
+      const areAllCharactersFound = characters.every((obj) => obj.found);
+
+      if (areAllCharactersFound) {
+        setIsEveryoneFound(true);
+        handleShowModal();
+      }
     }
-  }, [
-    waldo.isFound,
-    tail.isFound,
-    wilma.isFound,
-    whitebeard.isFound,
-    odlaw.isFound,
-  ]);
+  }, [characters]);
 
   return (
     <div className="main-container">
@@ -164,7 +84,7 @@ const LevelTwo = (props) => {
           setSeconds={setSeconds}
           seconds={seconds}
         />
-        <SearchingFor everyone={everyone} />
+        <SearchingFor everyone={characters} />
         <img
           alt="where is waldo level two"
           src={image}
@@ -182,42 +102,19 @@ const LevelTwo = (props) => {
             imgHeight={imgHeight}
           />
         )}
-        {waldo.isFound && (
-          <Marker
-            marX={waldo.position[0]}
-            marY={waldo.position[1]}
-            position="Waldo"
-          />
-        )}
-        {tail.isFound && (
-          <Marker
-            marX={tail.position[0]}
-            marY={tail.position[1]}
-            position="Tail"
-          />
-        )}
-        {wilma.isFound && (
-          <Marker
-            marX={wilma.position[0]}
-            marY={wilma.position[1]}
-            position="Wilma"
-          />
-        )}
-        {whitebeard.isFound && (
-          <Marker
-            marX={whitebeard.position[0]}
-            marY={whitebeard.position[1]}
-            position="Whitebeard"
-          />
-        )}
-        {odlaw.isFound && (
-          <Marker
-            marX={odlaw.position[0]}
-            marY={odlaw.position[1]}
-            position="Odlaw"
-          />
-        )}
-
+        {characters &&
+          characters.map((character) => {
+            if (character.found) {
+              return (
+                <Marker
+                  key={`${character.name}`}
+                  marX={character.position[0]}
+                  marY={character.position[1]}
+                  position={character.name}
+                />
+              );
+            }
+          })}
         {modalShow && (
           <GameOver time={seconds} handleCloseModal={handleCloseModal} />
         )}
