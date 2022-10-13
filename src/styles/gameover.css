@@ -28,6 +28,10 @@
   border-bottom: 1px solid black;
 }
 
+.modal-score > p {
+  text-align: center;
+}
+
 .modal-score > p:last-of-type {
   color: rgb(211, 0, 0);
 }

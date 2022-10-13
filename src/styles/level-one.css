@@ -39,14 +39,14 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-shadow:
+  /* text-shadow:
   -1px -1px 0 #000,  
   1px -1px 0 #000,
   -1px 1px 0 #000,
   1px 1px 0 #000;
-  color: rgb(255, 229, 80);
+  color: rgb(255, 229, 80); */
 }
 
 .searching-for-content {
-  color: rgb(109, 221, 75);
+  color: rgb(20, 49, 11);
 }
