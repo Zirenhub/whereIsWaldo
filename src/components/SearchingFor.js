@@ -7,17 +7,20 @@ const SearchingFor = (props) => {
         <p>You are seaching for:</p>
       </div>
       <div className="searching-for-content">
-        {Object.keys(everyone).map((label, index) => (
-          <div key={index}>
-            {everyone[label].isFound ? (
-              <p style={{ textDecoration: 'line-through', color: 'red' }}>
-                {label}
-              </p>
-            ) : (
-              <p>{label}</p>
-            )}
-          </div>
-        ))}
+        {everyone &&
+          everyone.map((character, index) => {
+            return (
+              <div key={index}>
+                {character.found ? (
+                  <p style={{ textDecoration: 'line-through', color: 'red' }}>
+                    {character.name}
+                  </p>
+                ) : (
+                  <p>{character.name}</p>
+                )}
+              </div>
+            );
+          })}
       </div>
     </div>
   );
