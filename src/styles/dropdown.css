@@ -1,0 +1,25 @@
+.dropdown-container {
+  background-image: url(../assets/images/Hamburger_icon.svg.png);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 2rem 2rem;
+  height: 2rem;
+  width: 2rem;
+  position: absolute;
+  top: 0.8%;
+  left: 4.2%;
+  z-index: 99999;
+  cursor: pointer;
+}
+
+@media(max-height: 670px) {
+  .dropdown-container {
+    left: 8%;
+  }
+}
+
+@media(max-width: 1350px) {
+  .dropdown-container {
+    left: 10%;
+  }
+}
