@@ -18,7 +18,7 @@ const checkIfInputValid = async (x, y, characters, setCharacters, level) => {
         if (isCharacterWithinRadius(x, y, charX, charY)) {
           const newState = characters.map((obj) => {
             if (obj.name === characterName) {
-              return { ...obj, found: true };
+              return { ...obj, found: true, position: [charX, charY] };
             }
 
             return obj;
