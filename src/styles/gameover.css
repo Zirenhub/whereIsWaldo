@@ -19,6 +19,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 100%;
 }
 
 .modal-score {
@@ -26,6 +27,7 @@
   flex-direction: column;
   align-items: center;
   border-bottom: 1px solid black;
+  width: 100%;
 }
 
 .modal-score > p {
