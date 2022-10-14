@@ -2,10 +2,9 @@ import React from 'react';
 import { GoogleButton } from 'react-google-button';
 import { UserAuth } from '../context/AuthContext';
 import '../styles/sign-in-out.css';
-import SignOut from './SignOut';
 
 const SignIn = () => {
-  const { googleSignIn, user } = UserAuth();
+  const { googleSignIn } = UserAuth();
 
   const handleGoogleSignIn = async () => {
     try {
@@ -17,11 +16,7 @@ const SignIn = () => {
 
   return (
     <div className="sign-in-out-container">
-      {user?.displayName ? (
-        <SignOut />
-      ) : (
-        <GoogleButton type="light" onClick={handleGoogleSignIn} />
-      )}
+      <GoogleButton type="light" onClick={handleGoogleSignIn} />
     </div>
   );
 };
