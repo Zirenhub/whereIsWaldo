@@ -23,9 +23,6 @@ const Dropdown = () => {
           </div>
         ) : (
           <div className="dropdown-google">
-            <p>
-              <i className="arrow up"></i>
-            </p>
             <SignIn />
           </div>
         ))}
