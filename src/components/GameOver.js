@@ -3,6 +3,7 @@ import formatTime from '../utils/formatTime';
 import getLeaderboard from '../utils/getLeaderboard';
 import { UserAuth } from '../context/AuthContext';
 import { useEffect, useState } from 'react';
+import addUserToLeaderboard from '../utils/addUserToLeaderboard';
 
 const GameOver = (props) => {
   const [leaderboard, setLeaderboard] = useState(null);
@@ -14,8 +15,10 @@ const GameOver = (props) => {
 
   useEffect(() => {
     if (user) {
+      const token = user.uid;
+      const userName = user.displayName;
+      addUserToLeaderboard(token, time, userName);
       setIsUserSignedIn(true);
-      // const uid = user.uid;
     } else {
       setIsUserSignedIn(false);
     }
@@ -33,8 +36,6 @@ const GameOver = (props) => {
     fetchCharacters();
   }, []);
 
-  console.log(leaderboard);
-
   return (
     <div className="modal-container">
       <div className="game-over-container">
@@ -51,7 +52,17 @@ const GameOver = (props) => {
             )}
             <p>Your time: {formatTime(time)}</p>
           </div>
-          {/* <div>{leaderboard}</div> */}
+          <div className="leaderboard-container">
+            {leaderboard &&
+              leaderboard.map((person) => {
+                return (
+                  <div className="person-container" key={person.key}>
+                    <p>{person.name}</p>
+                    <p>{person.time}</p>
+                  </div>
+                );
+              })}
+          </div>
         </div>
       </div>
       <div className="modal-background"></div>

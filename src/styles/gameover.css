@@ -57,7 +57,7 @@
 
 .modal-header > p {
   text-align: center;
-  margin-left: 100px;
+  margin-left: 93px;
 }
 
 .close-modal {
@@ -74,4 +74,19 @@
 
 .close-modal {
   margin-left: auto;
+}
+
+.leaderboard-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 5px;
+  padding: 15px;
+  border: 1px solid rgba(0,0,0,0.6)
+}
+
+.person-container {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0,0,0,0.2);
 }
