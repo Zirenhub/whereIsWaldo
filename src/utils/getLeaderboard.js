@@ -1,8 +1,8 @@
 import { db } from '../Firebase';
 import { getDocs, collection } from 'firebase/firestore';
 
-const getLeaderboard = async () => {
-  const querySnapshot = await getDocs(collection(db, 'Leaderboard'));
+const getLeaderboard = async (levelLeaderboard) => {
+  const querySnapshot = await getDocs(collection(db, `${levelLeaderboard}`));
 
   const data = [];
 

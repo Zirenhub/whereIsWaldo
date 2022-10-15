@@ -13,6 +13,7 @@
   height: 450px;
   box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
   background-color: #efefefef;
+  overflow: auto;
 }
 
 .modal-content {
@@ -20,6 +21,8 @@
   flex-direction: column;
   align-items: center;
   min-width: 100%;
+  max-height: 400px;
+
 }
 
 .modal-score {
@@ -82,7 +85,8 @@
   width: 100%;
   margin: 5px;
   padding: 15px;
-  border: 1px solid rgba(0,0,0,0.6)
+  border: 1px solid rgba(0,0,0,0.6);
+  overflow-y: auto;
 }
 
 .person-container {

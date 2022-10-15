@@ -9,31 +9,31 @@ const GameOver = (props) => {
   const [leaderboard, setLeaderboard] = useState(null);
   const [isUserSignedIn, setIsUserSignedIn] = useState(null);
 
-  const { time, handleCloseModal } = props;
+  const { time, handleCloseModal, levelLeaderboard } = props;
 
   const { user } = UserAuth();
 
   useEffect(() => {
-    if (user) {
-      const token = user.uid;
-      const userName = user.displayName;
-      addUserToLeaderboard(token, time, userName);
-      setIsUserSignedIn(true);
-    } else {
-      setIsUserSignedIn(false);
-    }
-  }, []);
-
-  useEffect(() => {
     console.log('trying to get leaderboard');
     const fetchCharacters = () => {
-      getLeaderboard()
+      getLeaderboard(levelLeaderboard)
         .then((data) => {
           setLeaderboard(data);
         })
         .catch((error) => console.log(error));
     };
     fetchCharacters();
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      const userName = user.displayName;
+      const token = user.uid;
+      addUserToLeaderboard(token, time, userName, levelLeaderboard);
+      setIsUserSignedIn(true);
+    } else {
+      setIsUserSignedIn(false);
+    }
   }, []);
 
   return (
@@ -54,14 +54,20 @@ const GameOver = (props) => {
           </div>
           <div className="leaderboard-container">
             {leaderboard &&
-              leaderboard.map((person) => {
-                return (
-                  <div className="person-container" key={person.key}>
-                    <p>{person.name}</p>
-                    <p>{person.time}</p>
-                  </div>
-                );
-              })}
+              leaderboard
+                .sort((a, b) => {
+                  if (a.time < b.time) return -1;
+                  if (a.time > b.time) return 1;
+                  return 0;
+                })
+                .map((person) => {
+                  return (
+                    <div className="person-container" key={person.key}>
+                      <p>{person.name}</p>
+                      <p>{person.time}</p>
+                    </div>
+                  );
+                })}
           </div>
         </div>
       </div>
