@@ -4,7 +4,7 @@ import formatTime from './formatTime';
 import { v4 as uuidv4 } from 'uuid';
 
 const addUserToLeaderboard = async (
-  token,
+  userID,
   time,
   userName,
   levelLeaderboard
@@ -12,11 +12,15 @@ const addUserToLeaderboard = async (
   const formatedTime = formatTime(time);
   const key = uuidv4();
 
-  await setDoc(doc(db, `${levelLeaderboard}`, `${token}`), {
-    name: userName,
-    time: formatedTime,
-    key: key,
-  });
+  try {
+    await setDoc(doc(db, `${levelLeaderboard}`, `${userID}`), {
+      name: userName,
+      time: formatedTime,
+      key: key,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export default addUserToLeaderboard;

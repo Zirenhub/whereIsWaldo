@@ -14,7 +14,6 @@ const GameOver = (props) => {
   const { user } = UserAuth();
 
   useEffect(() => {
-    console.log('trying to get leaderboard');
     const fetchCharacters = () => {
       getLeaderboard(levelLeaderboard)
         .then((data) => {
@@ -22,18 +21,22 @@ const GameOver = (props) => {
         })
         .catch((error) => console.log(error));
     };
-    fetchCharacters();
-  }, []);
 
-  useEffect(() => {
     if (user) {
       const userName = user.displayName;
-      const token = user.uid;
-      addUserToLeaderboard(token, time, userName, levelLeaderboard);
+      const userID = user.uid;
+      addUserToLeaderboard(userID, time, userName, levelLeaderboard);
       setIsUserSignedIn(true);
     } else {
       setIsUserSignedIn(false);
     }
+
+    fetchCharacters();
+
+    return () => {
+      setIsUserSignedIn(null);
+      setLeaderboard(null);
+    };
   }, []);
 
   return (

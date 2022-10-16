@@ -3,8 +3,13 @@ import { doc, getDoc } from 'firebase/firestore';
 import isCharacterWithinRadius from './isCharacterWithinRadius';
 
 const checkIfInputValid = async (x, y, characters, setCharacters, level) => {
-  const docRef = doc(db, 'locations', `${level}`);
-  const docSnap = await getDoc(docRef);
+  let docSnap;
+  try {
+    const docRef = doc(db, 'locations', `${level}`);
+    docSnap = await getDoc(docRef);
+  } catch (error) {
+    console.log(error);
+  }
 
   if (docSnap.exists() && characters) {
     const data = docSnap.data();
