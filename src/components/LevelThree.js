@@ -116,7 +116,11 @@ const LevelThree = (props) => {
             }
           })}
         {modalShow && (
-          <GameOver time={seconds} handleCloseModal={handleCloseModal} />
+          <GameOver
+            time={seconds}
+            handleCloseModal={handleCloseModal}
+            levelLeaderboard={'level-three-leaderboard'}
+          />
         )}
       </div>
     </div>
