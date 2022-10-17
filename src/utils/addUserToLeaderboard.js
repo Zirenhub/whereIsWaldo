@@ -9,13 +9,15 @@ const addUserToLeaderboard = async (
   userName,
   levelLeaderboard
 ) => {
-  const formatedTime = formatTime(time);
+  // const formatedTime = formatTime(time);
   const key = uuidv4();
 
+  if (userName.length > 9) userName = userName.substring(0, 9) + '...';
+
   try {
-    await setDoc(doc(db, `${levelLeaderboard}`, `${userID}`), {
+    await setDoc(doc(db, levelLeaderboard, userID), {
       name: userName,
-      time: formatedTime,
+      time: time,
       key: key,
     });
   } catch (error) {

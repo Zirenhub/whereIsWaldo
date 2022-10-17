@@ -4,7 +4,7 @@ import { getDocs, collection } from 'firebase/firestore';
 const getLeaderboard = async (levelLeaderboard) => {
   let querySnapshot;
   try {
-    querySnapshot = await getDocs(collection(db, `${levelLeaderboard}`));
+    querySnapshot = await getDocs(collection(db, levelLeaderboard));
   } catch (error) {
     console.log(error);
   }

@@ -2,7 +2,7 @@ import { db } from '../Firebase';
 import { doc, getDoc } from 'firebase/firestore';
 
 const getCharacters = async (level) => {
-  const docRef = doc(db, 'locations', `${level}`);
+  const docRef = doc(db, 'locations', level);
   const docSnap = await getDoc(docRef);
 
   let loadedCharacters;

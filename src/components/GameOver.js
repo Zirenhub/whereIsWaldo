@@ -4,6 +4,7 @@ import getLeaderboard from '../utils/getLeaderboard';
 import { UserAuth } from '../context/AuthContext';
 import { useEffect, useState } from 'react';
 import addUserToLeaderboard from '../utils/addUserToLeaderboard';
+import SignIn from './SignIn';
 
 const GameOver = (props) => {
   const [leaderboard, setLeaderboard] = useState(null);
@@ -22,28 +23,35 @@ const GameOver = (props) => {
         .catch((error) => console.log(error));
     };
 
-    if (user) {
-      const userName = user.displayName;
-      const userID = user.uid;
-      addUserToLeaderboard(userID, time, userName, levelLeaderboard);
-      setIsUserSignedIn(true);
-    } else {
-      setIsUserSignedIn(false);
-    }
+    const updateUser = () => {
+      if (user) {
+        const userName = user.displayName;
+        const userID = user.uid;
 
+        addUserToLeaderboard(userID, time, userName, levelLeaderboard);
+
+        setIsUserSignedIn(true);
+      } else {
+        setIsUserSignedIn(false);
+      }
+    };
+
+    updateUser();
     fetchCharacters();
 
     return () => {
       setIsUserSignedIn(null);
       setLeaderboard(null);
     };
-  }, []);
+  }, [user]);
 
   return (
     <div className="modal-container">
       <div className="game-over-container">
         <div className="modal-header">
-          <p>Congratulations</p>
+          <div className="modal-title">
+            <p>Congratulations</p>
+          </div>
           <div className="close-modal">
             <button onClick={handleCloseModal}>x</button>
           </div>
@@ -51,7 +59,10 @@ const GameOver = (props) => {
         <div className="modal-content">
           <div className="modal-score">
             {!isUserSignedIn && (
-              <p>Sign in to be included in the Leaderboard</p>
+              <div className="user-not-signed-in">
+                <p>Sign in to be included in the Leaderboard</p>
+                <SignIn />
+              </div>
             )}
             <p>Your time: {formatTime(time)}</p>
           </div>
@@ -67,7 +78,7 @@ const GameOver = (props) => {
                   return (
                     <div className="person-container" key={person.key}>
                       <p>{person.name}</p>
-                      <p>{person.time}</p>
+                      <p>{formatTime(person.time)}</p>
                     </div>
                   );
                 })}

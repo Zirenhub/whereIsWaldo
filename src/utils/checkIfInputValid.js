@@ -5,7 +5,7 @@ import isCharacterWithinRadius from './isCharacterWithinRadius';
 const checkIfInputValid = async (x, y, characters, setCharacters, level) => {
   let docSnap;
   try {
-    const docRef = doc(db, 'locations', `${level}`);
+    const docRef = doc(db, 'locations', level);
     docSnap = await getDoc(docRef);
   } catch (error) {
     console.log(error);
